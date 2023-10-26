@@ -16,4 +16,8 @@ class UserRepositoryImpl(private val userDatabase: UserDatabase) : UserRepositor
     override suspend fun registerNewUser(user: User) {
         userDatabase.userDao().register(user)
     }
+
+    override suspend fun getUserEmailById(id: String): String? {
+        return userDatabase.userDao().getUserEmailById(id)
+    }
 }
