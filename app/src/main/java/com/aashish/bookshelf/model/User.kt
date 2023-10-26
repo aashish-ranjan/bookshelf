@@ -11,5 +11,5 @@ data class User(
     val country: String? = null,
 ) {
     @PrimaryKey(autoGenerate = true)
-    var id: String? = null
+    var id: Int? = null
 }
