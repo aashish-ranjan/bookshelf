@@ -50,7 +50,7 @@ class LoginFragment : Fragment() {
             when (loginResult) {
                 is Resource.Success -> {
                     binding.loginProgressBar.isVisible = false
-                    val intent = Intent(requireActivity(), BookListActivity::class.java)
+                    val intent = Intent(requireActivity(), BooksActivity::class.java)
                     startActivity(intent)
                     requireActivity().finish()
                 }
