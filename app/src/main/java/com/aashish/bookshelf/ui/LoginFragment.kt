@@ -1,5 +1,6 @@
 package com.aashish.bookshelf.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -47,7 +48,8 @@ class LoginFragment : Fragment() {
             when (loginResult) {
                 is Resource.Success -> {
                     binding.loginProgressBar.isVisible = false
-                    Snackbar.make(binding.root, loginResult.message ?: "Login Success", Snackbar.LENGTH_SHORT).show()
+                    val intent = Intent(requireActivity(), BookListActivity::class.java)
+                    startActivity(intent)
                 }
 
                 is Resource.Error -> {
