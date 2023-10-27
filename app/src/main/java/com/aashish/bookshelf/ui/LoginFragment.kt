@@ -40,13 +40,10 @@ class LoginFragment : Fragment() {
         viewModel = ViewModelProvider(this, loginFragmentViewModelFactory)[LoginFragmentViewModel::class.java]
 
         viewModel.userEmailLiveData.observe(viewLifecycleOwner) { userEmail ->
-            userEmail?.let {
-                binding.etEmail.apply {
-                    setText(userEmail)
-                    isEnabled = false
-                }
-                binding.tvLogout.isVisible = true
-                binding.tvSignup.isVisible = false
+            if (userEmail.isNullOrEmpty()) {
+                setupNewLogin()
+            } else {
+                setupReturnLogin(userEmail)
             }
         }
         viewModel.loginResultLiveData.observe(viewLifecycleOwner) { loginResult ->
@@ -73,6 +70,24 @@ class LoginFragment : Fragment() {
         setupClickListeners()
     }
 
+    private fun setupReturnLogin(userEmail: String) {
+        binding.apply {
+            etEmail.isEnabled = false
+            etEmail.setText(userEmail)
+            tvLogout.isVisible = true
+            tvSignup.isVisible = false
+        }
+    }
+
+    private fun setupNewLogin() {
+        binding.apply {
+            etEmail.isEnabled = true
+            etEmail.setText("")
+            tvLogout.isVisible = false
+            tvSignup.isVisible = true
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -92,10 +107,6 @@ class LoginFragment : Fragment() {
             }
             tvLogout.setOnClickListener {
                 viewModel.logout()
-                binding.etEmail.setText("")
-                binding.etEmail.isEnabled = true
-                binding.tvSignup.isVisible = true
-                binding.tvLogout.isVisible = false
             }
         }
     }

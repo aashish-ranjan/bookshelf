@@ -63,7 +63,9 @@ class LoginFragmentViewModel(
     }
 
     fun logout() {
+        _userEmailLiveData.value = ""
         authManager.resetLastLoginUserId()
+
     }
 }
 
