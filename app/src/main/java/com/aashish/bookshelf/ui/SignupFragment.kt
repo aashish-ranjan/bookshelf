@@ -54,6 +54,7 @@ class SignupFragment: Fragment() {
                     binding.signupProgressBar.isVisible = false
                     val intent = Intent(requireActivity(), BookListActivity::class.java)
                     startActivity(intent)
+                    requireActivity().finish()
                 }
 
                 is Resource.Error -> {
