@@ -10,6 +10,7 @@ import com.aashish.bookshelf.repository.AuthManager
 import com.aashish.bookshelf.repository.UserRepository
 import com.aashish.bookshelf.utils.Constants.INVALID_USER_ID
 import com.aashish.bookshelf.utils.Resource
+import com.aashish.bookshelf.utils.ValidationUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -41,36 +42,24 @@ class LoginFragmentViewModel(
 
     fun processLoginCredentials(email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val emailError = emailValidationErrorMsg(email)
-            val passwordError = passwordValidationErrorMsg(password)
-
-            val result = when {
-                emailError != null -> Resource.Error(emailError)
-                passwordError != null -> Resource.Error(passwordError)
-                else -> {
-                    val user = userRepository.getUserByEmail(email)
-                    when {
-                        user == null -> Resource.Error("Email does not exist")
-                        user.password != password -> Resource.Error("Incorrect Password")
-                        user.id != INVALID_USER_ID -> {
-                            authManager.updateLastLoginUserId(user.id)
-                            Resource.Success(user)
-                        }
-                        else -> Resource.Error("Something went wrong")
+            val emailError = ValidationUtils.emailValidation(email).message
+            val result = if (emailError != null) {
+                Resource.Error(emailError)
+            } else {
+                val user = userRepository.getUserByEmail(email)
+                when {
+                    user == null -> Resource.Error("Email does not exist")
+                    user.password != password -> Resource.Error("Incorrect Password")
+                    user.id != INVALID_USER_ID -> {
+                        authManager.updateLastLoginUserId(user.id)
+                        Resource.Success(user)
                     }
+
+                    else -> Resource.Error("Something went wrong")
                 }
             }
             _loginResultLiveData.postValue(result)
         }
-    }
-
-
-    private fun emailValidationErrorMsg(email: String): String? {
-        return null
-    }
-
-    private fun passwordValidationErrorMsg(password: String): String? {
-        return null
     }
 }
 

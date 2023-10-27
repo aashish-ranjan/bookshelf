@@ -8,4 +8,5 @@ object Constants {
     const val DUMMY_BASE_URL = "https://dummy.com"
     const val COUNTRY_LIST_COMPLETE_URL = "https://api.first.org/data/v1/countries"
     const val IP_GEOLOCATION_COMPLETE_URL = "http://ip-api.com/json/?fields=status,country"
+    const val EMAIL_REGEX = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$"
 }

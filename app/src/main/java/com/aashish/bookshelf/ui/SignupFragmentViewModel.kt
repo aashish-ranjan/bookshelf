@@ -10,6 +10,7 @@ import com.aashish.bookshelf.repository.AuthManager
 import com.aashish.bookshelf.repository.CountryRepository
 import com.aashish.bookshelf.repository.UserRepository
 import com.aashish.bookshelf.utils.Resource
+import com.aashish.bookshelf.utils.ValidationUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -44,9 +45,9 @@ class SignupFragmentViewModel(
 
     fun processSignupCredentials(name: String, email: String, password: String, country: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val nameError = nameValidationErrorMsg(name)
-            val emailError = emailValidationErrorMsg(email)
-            val passwordError = passwordValidationErrorMsg(password)
+            val nameError = ValidationUtils.nameValidation(name).message
+            val emailError = ValidationUtils.emailValidation(email).message
+            val passwordError = ValidationUtils.passwordValidation(password).message
 
             val result = when {
                 nameError != null -> Resource.Error(nameError)
@@ -57,7 +58,7 @@ class SignupFragmentViewModel(
                     if (user != null) {
                         Resource.Error("Email already exists")
                     } else {
-                        val newUser = User(name, email, password, country)
+                        val newUser = User(name.trim(), email, password, country)
                         val generatedUserId = userRepository.registerNewUser(newUser)
                         authManager.updateLastLoginUserId(generatedUserId)
                         Resource.Success(newUser)
@@ -67,19 +68,6 @@ class SignupFragmentViewModel(
             _signupResultLiveData.postValue(result)
         }
     }
-
-    private fun nameValidationErrorMsg(name: String): String? {
-        return null
-    }
-
-    private fun emailValidationErrorMsg(email: String): String? {
-        return null
-    }
-
-    private fun passwordValidationErrorMsg(password: String): String? {
-        return null
-    }
-
 }
 
 class SignupFragmentViewModelFactory(
