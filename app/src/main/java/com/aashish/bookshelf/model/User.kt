@@ -9,7 +9,6 @@ data class User(
     val password: String,
     val email: String? = null,
     val country: String? = null,
-) {
     @PrimaryKey(autoGenerate = true)
-    var id: Int? = null
-}
+    val id: Long = 0L
+)

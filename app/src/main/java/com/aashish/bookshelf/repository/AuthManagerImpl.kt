@@ -1,11 +1,11 @@
 package com.aashish.bookshelf.repository
 
 class AuthManagerImpl(private val preferencesRepository: PreferencesRepository): AuthManager {
-    override fun getLastLoginUserId(): Int {
+    override fun getLastLoginUserId(): Long {
         return preferencesRepository.getLastLoginUserId()
     }
 
-    override fun updateLastLoginUserId(userId: Int) {
+    override fun updateLastLoginUserId(userId: Long) {
         preferencesRepository.updateLastLoginUserId(userId)
     }
 

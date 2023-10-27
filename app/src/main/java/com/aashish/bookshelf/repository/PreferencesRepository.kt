@@ -7,15 +7,15 @@ import com.aashish.bookshelf.utils.Constants.INVALID_USER_ID
 
 class PreferencesRepository private constructor(context: Context) {
     private val sharedPreferences = context.getSharedPreferences(AUTH_PREF_FILE_NAME, Context.MODE_PRIVATE)
-    fun updateLastLoginUserId(userId: Int) {
+    fun updateLastLoginUserId(userId: Long) {
         sharedPreferences.edit().apply {
-            putInt(Constants.LAST_LOGIN_USER_ID, userId)
+            putLong(Constants.LAST_LOGIN_USER_ID, userId)
             apply()
         }
     }
 
-    fun getLastLoginUserId(): Int {
-        return sharedPreferences.getInt(Constants.LAST_LOGIN_USER_ID, INVALID_USER_ID)
+    fun getLastLoginUserId(): Long {
+        return sharedPreferences.getLong(Constants.LAST_LOGIN_USER_ID, INVALID_USER_ID)
     }
 
     fun removeLastLoginUserId() {

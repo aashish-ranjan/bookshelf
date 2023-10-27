@@ -52,12 +52,11 @@ class LoginFragmentViewModel(
                     when {
                         user == null -> Resource.Error("Email does not exist")
                         user.password != password -> Resource.Error("Incorrect Password")
-                        else -> {
-                            user.id?.let {userId ->
-                                authManager.updateLastLoginUserId(userId)
-                                Resource.Success(user)
-                            } ?: Resource.Error("Something went wrong")
+                        user.id != INVALID_USER_ID -> {
+                            authManager.updateLastLoginUserId(user.id)
+                            Resource.Success(user)
                         }
+                        else -> Resource.Error("Something went wrong")
                     }
                 }
             }

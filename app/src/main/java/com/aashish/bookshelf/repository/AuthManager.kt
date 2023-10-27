@@ -1,8 +1,8 @@
 package com.aashish.bookshelf.repository
 
 interface AuthManager {
-    fun getLastLoginUserId(): Int
-    fun updateLastLoginUserId(userId: Int)
+    fun getLastLoginUserId(): Long
+    fun updateLastLoginUserId(userId: Long)
 
     fun resetLastLoginUserId()
 }
