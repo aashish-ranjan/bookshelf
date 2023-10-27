@@ -61,6 +61,10 @@ class LoginFragmentViewModel(
             _loginResultLiveData.postValue(result)
         }
     }
+
+    fun logout() {
+        authManager.resetLastLoginUserId()
+    }
 }
 
 class LoginFragmentViewModelFactory(

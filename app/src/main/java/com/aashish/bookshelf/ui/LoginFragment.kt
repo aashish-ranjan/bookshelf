@@ -41,7 +41,12 @@ class LoginFragment : Fragment() {
 
         viewModel.userEmailLiveData.observe(viewLifecycleOwner) { userEmail ->
             userEmail?.let {
-                binding.etEmail.setText(userEmail)
+                binding.etEmail.apply {
+                    setText(userEmail)
+                    isEnabled = false
+                }
+                binding.tvLogout.isVisible = true
+                binding.tvSignup.isVisible = false
             }
         }
         viewModel.loginResultLiveData.observe(viewLifecycleOwner) { loginResult ->
@@ -81,9 +86,16 @@ class LoginFragment : Fragment() {
                     etPassword.text.toString()
                 )
             }
-            tvNewUser.setOnClickListener {
+            tvSignup.setOnClickListener {
                 val action = LoginFragmentDirections.actionLoginFragmentToSignupFragment()
                 findNavController().navigate(action)
+            }
+            tvLogout.setOnClickListener {
+                viewModel.logout()
+                binding.etEmail.setText("")
+                binding.etEmail.isEnabled = true
+                binding.tvSignup.isVisible = true
+                binding.tvLogout.isVisible = false
             }
         }
     }
