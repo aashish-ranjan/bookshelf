@@ -41,22 +41,27 @@
         android:layout_height="wrap_content"
         android:text="Select Country"
         android:layout_marginTop="8dp"
-        android:textSize="10sp"
+        android:textSize="11sp"
         android:textColor="@android:color/black" />
 
-    <!-- Dropdown for Country Selection -->
     <Spinner
         android:id="@+id/spinner_country"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp" />
 
-    <!-- Signup Button -->
     <Button
         android:id="@+id/btn_signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Sign up" />
+
+    <ProgressBar
+        android:id="@+id/signup_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:visibility="gone" />
 
 </LinearLayout>
