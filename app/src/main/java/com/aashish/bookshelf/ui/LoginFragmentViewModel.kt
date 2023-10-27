@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.aashish.bookshelf.repository.AuthManager
 import com.aashish.bookshelf.repository.UserRepository
+import com.aashish.bookshelf.utils.Constants.INVALID_USER_ID
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -25,11 +26,12 @@ class LoginFragmentViewModel(
 
     private suspend fun fetchLastLoginDetails() {
         val lastLoginUserId = authManager.getLastLoginUserId()
-        lastLoginUserId?.let { userId ->
-            val userEmail = userRepository.getUserEmailById(userId)
-            userEmail?.let { email ->
-                _userEmailLiveData.postValue(email)
-            }
+        if (lastLoginUserId == INVALID_USER_ID) {
+            return
+        }
+        val userEmail = userRepository.getUserEmailById(lastLoginUserId)
+        userEmail?.let { email ->
+            _userEmailLiveData.postValue(email)
         }
     }
 }

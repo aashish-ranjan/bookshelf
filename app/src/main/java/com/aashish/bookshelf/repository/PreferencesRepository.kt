@@ -3,18 +3,19 @@ package com.aashish.bookshelf.repository
 import android.content.Context
 import com.aashish.bookshelf.utils.Constants
 import com.aashish.bookshelf.utils.Constants.AUTH_PREF_FILE_NAME
+import com.aashish.bookshelf.utils.Constants.INVALID_USER_ID
 
 class PreferencesRepository private constructor(context: Context) {
     private val sharedPreferences = context.getSharedPreferences(AUTH_PREF_FILE_NAME, Context.MODE_PRIVATE)
-    fun updateLastLoginUserId(userId: String) {
+    fun updateLastLoginUserId(userId: Int) {
         sharedPreferences.edit().apply {
-            putString(Constants.LAST_LOGIN_USER_ID, userId)
+            putInt(Constants.LAST_LOGIN_USER_ID, userId)
             apply()
         }
     }
 
-    fun getLastLoginUserId(): String? {
-        return sharedPreferences.getString(Constants.LAST_LOGIN_USER_ID, null)
+    fun getLastLoginUserId(): Int {
+        return sharedPreferences.getInt(Constants.LAST_LOGIN_USER_ID, INVALID_USER_ID)
     }
 
     fun removeLastLoginUserId() {

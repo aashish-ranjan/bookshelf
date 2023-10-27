@@ -5,19 +5,23 @@ import com.aashish.bookshelf.model.User
 
 class UserRepositoryImpl(private val userDatabase: UserDatabase) : UserRepository {
 
-    override suspend fun getUserById(id: String): User? {
+    override suspend fun getUserById(id: Int): User? {
         return userDatabase.userDao().getUserById(id)
     }
 
-    override suspend fun getUserByNameAndPassword(username: String, password: String): User? {
-        return userDatabase.userDao().getUserByNameAndPassword(username, password)
+    override suspend fun getUserByEmailAndPassword(email: String, password: String): User? {
+        return userDatabase.userDao().getUserByEmailAndPassword(email, password)
     }
 
     override suspend fun registerNewUser(user: User) {
         userDatabase.userDao().register(user)
     }
 
-    override suspend fun getUserEmailById(id: String): String? {
+    override suspend fun getUserEmailById(id: Int): String? {
         return userDatabase.userDao().getUserEmailById(id)
+    }
+
+    override suspend fun getUserByEmail(email: String): User? {
+        return userDatabase.userDao().getUserByEmail(email)
     }
 }

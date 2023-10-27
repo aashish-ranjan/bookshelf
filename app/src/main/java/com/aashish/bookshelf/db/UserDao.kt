@@ -11,12 +11,15 @@ interface UserDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun register(user: User)
 
-    @Query("SELECT * from user_table WHERE username=:username AND password=:password")
-    suspend fun getUserByNameAndPassword(username: String, password: String): User?
+    @Query("SELECT * from user_table WHERE email=:email AND password=:password")
+    suspend fun getUserByEmailAndPassword(email: String, password: String): User?
 
     @Query("SELECT * from user_table WHERE id=:id")
-    suspend fun getUserById(id: String): User?
+    suspend fun getUserById(id: Int): User?
 
     @Query("SELECT email from user_table WHERE id=:id")
-    suspend fun getUserEmailById(id: String): String?
+    suspend fun getUserEmailById(id: Int): String?
+
+    @Query("SELECT * from user_table WHERE email=:email")
+    suspend fun getUserByEmail(email: String): User?
 }
