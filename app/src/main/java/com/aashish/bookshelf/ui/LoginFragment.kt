@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.aashish.bookshelf.databinding.FragmentLoginBinding
+import com.aashish.bookshelf.utils.Resource
+import com.google.android.material.snackbar.Snackbar
 
-class LoginFragment: Fragment() {
+class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding
         get() = checkNotNull(_binding) {
@@ -39,6 +43,26 @@ class LoginFragment: Fragment() {
                 binding.etEmail.setText(userEmail)
             }
         }
+        viewModel.loginResultLiveData.observe(viewLifecycleOwner) { loginResult ->
+            when (loginResult) {
+                is Resource.Success -> {
+                    binding.loginProgressBar.isVisible = false
+                    Snackbar.make(binding.root, loginResult.message ?: "Login Success", Snackbar.LENGTH_SHORT).show()
+                }
+
+                is Resource.Error -> {
+                    binding.loginProgressBar.isVisible = false
+                    Snackbar.make(binding.root, loginResult.message ?: "Unknown Error", Snackbar.LENGTH_SHORT).show()
+                }
+
+                is Resource.Loading -> {
+                    binding.loginProgressBar.isVisible = false
+                }
+            }
+
+        }
+
+        setupClickListeners()
     }
 
     override fun onDestroyView() {
@@ -46,4 +70,18 @@ class LoginFragment: Fragment() {
         _binding = null
     }
 
+    private fun setupClickListeners() {
+        with(binding) {
+            btnLogin.setOnClickListener {
+                viewModel.processLoginCredentials(
+                    etEmail.text.toString(),
+                    etPassword.text.toString()
+                )
+            }
+            tvNewUser.setOnClickListener {
+                val action = LoginFragmentDirections.actionLoginFragmentToSignupFragment()
+                findNavController().navigate(action)
+            }
+        }
+    }
 }
