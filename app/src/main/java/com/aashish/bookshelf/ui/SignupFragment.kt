@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -37,17 +38,24 @@ class SignupFragment: Fragment() {
             SignupFragmentViewModelFactory(authManager, userRepository)
         viewModel = ViewModelProvider(this, signupFragmentViewModelFactory)[SignupFragmentViewModel::class.java]
 
+        setUpClickListeners()
+        observeListeners()
+    }
+
+    private fun setUpClickListeners() {
         with(binding) {
             btnSignup.setOnClickListener {
                 viewModel.processSignupCredentials(
                     etName.text.toString(),
                     etEmail.text.toString(),
                     etPassword.text.toString(),
-                    "India"
+                    spinnerCountry.selectedItem.toString()
                 )
             }
         }
+    }
 
+    private fun observeListeners() {
         viewModel.signupResultLiveData.observe(viewLifecycleOwner) { signupResult ->
             when (signupResult) {
                 is Resource.Success -> {
@@ -67,7 +75,12 @@ class SignupFragment: Fragment() {
                 }
             }
         }
-
+        viewModel.countryListLiveData.observe(viewLifecycleOwner) { countryList ->
+            if (countryList.isNotEmpty()) {
+                val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, countryList)
+                binding.spinnerCountry.adapter = adapter
+            }
+        }
     }
 
     override fun onDestroyView() {

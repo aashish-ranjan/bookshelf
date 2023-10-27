@@ -18,6 +18,14 @@ class SignupFragmentViewModel(
 ) : ViewModel() {
     private val _signupResultLiveData: MutableLiveData<Resource<User>> = MutableLiveData()
     val signupResultLiveData: LiveData<Resource<User>> = _signupResultLiveData
+
+    private val _countryListLiveData: MutableLiveData<List<String>> = MutableLiveData()
+    val countryListLiveData: LiveData<List<String>> = _countryListLiveData
+
+    init {
+        _countryListLiveData.value = listOf("India", "China", "Japan", "US", "UK", "Canada")
+    }
+
     fun processSignupCredentials(name: String, email: String, password: String, country: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val nameError = nameValidationErrorMsg(name)
