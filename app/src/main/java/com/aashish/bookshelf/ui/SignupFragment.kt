@@ -34,8 +34,9 @@ class SignupFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val authManager = (requireActivity() as AuthActivity).authManager
         val userRepository = (requireActivity() as AuthActivity).userRepository
+        val countryRepository = (requireActivity() as AuthActivity).countryRepository
         val signupFragmentViewModelFactory =
-            SignupFragmentViewModelFactory(authManager, userRepository)
+            SignupFragmentViewModelFactory(authManager, userRepository, countryRepository)
         viewModel = ViewModelProvider(this, signupFragmentViewModelFactory)[SignupFragmentViewModel::class.java]
 
         setUpClickListeners()
@@ -79,6 +80,13 @@ class SignupFragment: Fragment() {
             if (countryList.isNotEmpty()) {
                 val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, countryList)
                 binding.spinnerCountry.adapter = adapter
+            }
+        }
+        viewModel.defaultPositionInLiveData.observe(viewLifecycleOwner) { defaultPositionInDropdown ->
+            defaultPositionInDropdown?.let {position ->
+                if (position >= 0 && position < binding.spinnerCountry.adapter.count) {
+                    binding.spinnerCountry.setSelection(position)
+                }
             }
         }
     }

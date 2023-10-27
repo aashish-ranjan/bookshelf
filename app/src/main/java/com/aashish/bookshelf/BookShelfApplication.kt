@@ -1,8 +1,10 @@
 package com.aashish.bookshelf
 
 import android.app.Application
+import com.aashish.bookshelf.api.RetrofitInstance
 import com.aashish.bookshelf.db.UserDatabase
 import com.aashish.bookshelf.repository.AuthManagerImpl
+import com.aashish.bookshelf.repository.CountryRepositoryImpl
 import com.aashish.bookshelf.repository.PreferencesRepository
 import com.aashish.bookshelf.repository.UserRepositoryImpl
 
@@ -19,5 +21,9 @@ class BookShelfApplication: Application() {
     }
     val userRepository by lazy {
         UserRepositoryImpl(userDatabase)
+    }
+
+    val countryRepository by lazy {
+        CountryRepositoryImpl(RetrofitInstance.countryApi)
     }
 }

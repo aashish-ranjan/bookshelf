@@ -7,14 +7,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.aashish.bookshelf.model.User
 import com.aashish.bookshelf.repository.AuthManager
+import com.aashish.bookshelf.repository.CountryRepository
 import com.aashish.bookshelf.repository.UserRepository
 import com.aashish.bookshelf.utils.Resource
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class SignupFragmentViewModel(
     private val authManager: AuthManager,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val countryRepository: CountryRepository
 ) : ViewModel() {
     private val _signupResultLiveData: MutableLiveData<Resource<User>> = MutableLiveData()
     val signupResultLiveData: LiveData<Resource<User>> = _signupResultLiveData
@@ -22,8 +25,21 @@ class SignupFragmentViewModel(
     private val _countryListLiveData: MutableLiveData<List<String>> = MutableLiveData()
     val countryListLiveData: LiveData<List<String>> = _countryListLiveData
 
+    private val _defaultPositionInDropdown: MutableLiveData<Int> = MutableLiveData()
+    val defaultPositionInLiveData: LiveData<Int> = _defaultPositionInDropdown
+
+
     init {
-        _countryListLiveData.value = listOf("India", "China", "Japan", "US", "UK", "Canada")
+        viewModelScope.launch(Dispatchers.IO) {
+            val defaultCountryDeferred = async { countryRepository.getCountryFromIpGeoLocation() }
+            val countryList = countryRepository.getCountryList().toMutableList()
+            val defaultCountry = defaultCountryDeferred.await() ?: "Other"
+            if (!countryList.contains(defaultCountry)) {
+                countryList.add(defaultCountry)
+            }
+            _countryListLiveData.postValue(countryList)
+            _defaultPositionInDropdown.postValue(countryList.indexOf(defaultCountry))
+        }
     }
 
     fun processSignupCredentials(name: String, email: String, password: String, country: String) {
@@ -68,11 +84,12 @@ class SignupFragmentViewModel(
 
 class SignupFragmentViewModelFactory(
     private val authManager: AuthManager,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val countryRepository: CountryRepository
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SignupFragmentViewModel::class.java)) {
-            return SignupFragmentViewModel(authManager, userRepository) as T
+            return SignupFragmentViewModel(authManager, userRepository, countryRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
