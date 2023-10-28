@@ -1,27 +1,27 @@
 package com.aashish.bookshelf.repository
 
-import com.aashish.bookshelf.db.UserDatabase
+import com.aashish.bookshelf.db.UserDao
 import com.aashish.bookshelf.model.User
 
-class UserRepositoryImpl(private val userDatabase: UserDatabase) : UserRepository {
+class UserRepositoryImpl(private val userDao: UserDao) : UserRepository {
 
     override suspend fun getUserById(id: Long): User? {
-        return userDatabase.userDao().getUserById(id)
+        return userDao.getUserById(id)
     }
 
     override suspend fun getUserByEmailAndPassword(email: String, password: String): User? {
-        return userDatabase.userDao().getUserByEmailAndPassword(email, password)
+        return userDao.getUserByEmailAndPassword(email, password)
     }
 
     override suspend fun registerNewUser(user: User) : Long {
-        return userDatabase.userDao().insert(user)
+        return userDao.insert(user)
     }
 
     override suspend fun getUserEmailById(id: Long): String? {
-        return userDatabase.userDao().getUserEmailById(id)
+        return userDao.getUserEmailById(id)
     }
 
     override suspend fun getUserByEmail(email: String): User? {
-        return userDatabase.userDao().getUserByEmail(email)
+        return userDao.getUserByEmail(email)
     }
 }

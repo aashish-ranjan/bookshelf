@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.EditText
 import com.aashish.bookshelf.databinding.LayoutNotesLabelBinding
+import com.google.android.material.snackbar.Snackbar
 
 class NotesLabel(private val binding: LayoutNotesLabelBinding, onClick: (String, String) -> Unit) {
 
@@ -36,7 +37,12 @@ class NotesLabel(private val binding: LayoutNotesLabelBinding, onClick: (String,
             .setTitle("Edit Label")
             .setView(editText)
             .setPositiveButton("Save") { _, _ ->
-                onPositiveClick(currentText, editText.text.toString())
+                val newText = editText.text.toString()
+                if (newText.isNotBlank()) {
+                    onPositiveClick(currentText, newText)
+                } else {
+                    Snackbar.make(binding.root, "Update Failed! New label cannot be empty", Snackbar.LENGTH_SHORT).show()
+                }
             }
             .setNegativeButton("Cancel", null)
             .create()
