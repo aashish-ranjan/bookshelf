@@ -40,6 +40,16 @@ class BookDetailFragment : Fragment() {
         )[BookDetailFragmentViewModel::class.java]
 
         initUi(args.book)
+        setupClickListeners()
+        viewModel.markedFavouriteLiveData.observe(viewLifecycleOwner) { markedFavourite ->
+            binding.ivFavourite.setImageResource(
+                if (markedFavourite == true) {
+                    R.drawable.ic_favourite_selected
+                } else {
+                    R.drawable.ic_favourite_unselected
+                }
+            )
+        }
     }
 
     override fun onDestroyView() {
@@ -54,6 +64,14 @@ class BookDetailFragment : Fragment() {
             tvTitle.text = book.title
             tvRating.text = book.score.toString()
             tvPublicationYear.text = book.publicationYear.toString()
+        }
+    }
+
+    private fun setupClickListeners() {
+        with(binding) {
+            ivFavourite.setOnClickListener {
+                viewModel.toggleFavourite()
+            }
         }
     }
 

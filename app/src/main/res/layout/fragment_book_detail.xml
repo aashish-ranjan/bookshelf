@@ -49,11 +49,14 @@
         android:id="@+id/iv_favourite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_star"
+        android:src="@drawable/ic_favourite_unselected"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/iv_cover_picture"
         app:layout_constraintBottom_toBottomOf="@id/iv_cover_picture"
-        android:layout_marginEnd="16dp"/>
+        android:contentDescription="Favourite icon"
+        android:padding="16dp"/>
 
 
 
