@@ -5,4 +5,6 @@ import com.aashish.bookshelf.utils.Resource
 
 interface BookRepository {
     suspend fun getAllBooks(): Resource<List<Book>>
+
+    suspend fun getBookById(bookId: String): Book?
 }

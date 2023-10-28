@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.aashish.bookshelf.databinding.ItemBookBinding
 import com.aashish.bookshelf.model.Book
 
-class BookRecyclerViewAdapter(private val onItemClick: (book: Book) -> Unit): ListAdapter<Book, BookViewHolder>(BookItemCallback) {
+class BookRecyclerViewAdapter(private val onItemClick: (String) -> Unit): ListAdapter<Book, BookViewHolder>(BookItemCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
         val binding = ItemBookBinding.inflate(
             LayoutInflater.from(parent.context),

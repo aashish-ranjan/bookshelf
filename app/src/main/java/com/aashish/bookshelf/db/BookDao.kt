@@ -16,4 +16,7 @@ interface BookDao {
     
     @Query("SELECT * FROM book_table WHERE title LIKE '%'|| :searchQuery || '%'")
     suspend fun searchBooks(searchQuery: String): List<Book>
+
+    @Query("SELECT * FROM book_table WHERE id=:bookId")
+    suspend fun getBookById(bookId: String): Book?
 }

@@ -24,4 +24,8 @@ class BookRepositoryImpl(private val bookApi: BookApi, private val bookDao: Book
 
         return Resource.Error("Something went wrong", null)
     }
+
+    override suspend fun getBookById(bookId: String): Book? {
+        return bookDao.getBookById(bookId)
+    }
 }

@@ -106,6 +106,7 @@ class LoginFragment : Fragment() {
                 findNavController().navigate(action)
             }
             tvLogout.setOnClickListener {
+                Snackbar.make(binding.root, "Logged out Successfully", Snackbar.LENGTH_SHORT).show()
                 viewModel.logout()
             }
         }

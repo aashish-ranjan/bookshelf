@@ -43,8 +43,8 @@ class BookListFragment : Fragment() {
         )[BookListFragmentViewModel::class.java]
 
 
-        val adapter = BookRecyclerViewAdapter { book: Book ->
-            val action = BookListFragmentDirections.actionBookListFragmentToBookDetailFragment(book)
+        val adapter = BookRecyclerViewAdapter { bookId: String ->
+            val action = BookListFragmentDirections.actionBookListFragmentToBookDetailFragment(bookId)
             findNavController().navigate(action)
         }
 

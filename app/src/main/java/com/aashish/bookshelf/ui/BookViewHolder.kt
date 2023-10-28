@@ -7,7 +7,7 @@ import com.aashish.bookshelf.model.Book
 import com.bumptech.glide.Glide
 
 class BookViewHolder(private val binding: ItemBookBinding): ViewHolder(binding.root) {
-    fun bind(book: Book, onItemClick: (Book) -> Unit) {
+    fun bind(book: Book, onItemClick: (String) -> Unit) {
         with(binding) {
             tvTitle.text = book.title
             tvRating.text = book.score.toString()
@@ -16,7 +16,7 @@ class BookViewHolder(private val binding: ItemBookBinding): ViewHolder(binding.r
                 .placeholder(R.drawable.img_placeholder)
                 .into(ivThumbnail)
             root.setOnClickListener {
-                onItemClick(book)
+                onItemClick(book.id)
             }
         }
     }

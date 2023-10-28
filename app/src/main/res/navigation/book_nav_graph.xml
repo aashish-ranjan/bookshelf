@@ -18,9 +18,9 @@
         android:id="@+id/bookDetailFragment"
         android:name="com.aashish.bookshelf.ui.BookDetailFragment"
         tools:layout="@layout/fragment_book_detail"
-        android:label="BookDetailFragment" >
+        android:label="BookDetailFragment">
         <argument
-            android:name="book"
-            app:argType="com.aashish.bookshelf.model.Book" />
+            android:name="bookId"
+            app:argType="string" />
     </fragment>
 </navigation>
