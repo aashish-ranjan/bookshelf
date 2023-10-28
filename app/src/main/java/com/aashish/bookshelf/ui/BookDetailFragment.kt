@@ -1,9 +1,11 @@
 package com.aashish.bookshelf.ui
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
@@ -11,6 +13,7 @@ import com.aashish.bookshelf.R
 import com.aashish.bookshelf.databinding.FragmentBookDetailBinding
 import com.aashish.bookshelf.model.Book
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 
 class BookDetailFragment : Fragment() {
     private var _binding: FragmentBookDetailBinding? = null
@@ -50,6 +53,20 @@ class BookDetailFragment : Fragment() {
                 }
             )
         }
+        viewModel.noteLabelListLiveData.observe(viewLifecycleOwner) { noteTagList ->
+            binding.labelContainer.removeAllViews()
+            noteTagList?.forEach { noteTag ->
+                addNewNoteTag(noteTag)
+            }
+        }
+    }
+
+    private fun addNewNoteTag(text: String) {
+        val notesLabel = NotesLabel.inflate(requireContext()) { old: String, new: String->
+            viewModel.updateLabel(old, new)
+        }
+        notesLabel.text = text
+        notesLabel.attachTo(binding.labelContainer)
     }
 
     override fun onDestroyView() {
@@ -72,7 +89,31 @@ class BookDetailFragment : Fragment() {
             ivFavourite.setOnClickListener {
                 viewModel.toggleFavourite()
             }
+            ivAddLabel.setOnClickListener {
+                showInputDialog()
+            }
         }
+    }
+
+    private fun showInputDialog() {
+        val editText = EditText(requireContext())
+        editText.hint = "Enter label text"
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle("Add New Label")
+            .setView(editText)
+            .setPositiveButton("Add") { _, _ ->
+                val labelText = editText.text.toString()
+                if (labelText.isNotEmpty()) {
+                    viewModel.addNewLabel(labelText)
+                } else {
+                    Snackbar.make(binding.root, "Label cannot be empty", Snackbar.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .create()
+
+        dialog.show()
     }
 
 }

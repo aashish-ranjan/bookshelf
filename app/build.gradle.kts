@@ -85,4 +85,6 @@ dependencies {
     val glideVersion = "4.16.0"
     implementation("com.github.bumptech.glide:glide:$glideVersion")
     ksp("com.github.bumptech.glide:compiler:$glideVersion")
+
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
 }

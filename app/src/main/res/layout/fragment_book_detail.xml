@@ -1,65 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="16dp">
 
     <ImageView
         android:id="@+id/iv_cover_picture"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:contentDescription="Book cover picture"
-        tools:src="@drawable/img_placeholder"/>
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/img_placeholder" />
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/iv_cover_picture"
-        tools:text="Title"
         android:textSize="20sp"
-        app:layout_constraintTop_toTopOf="@id/iv_cover_picture"/>
+        app:layout_constraintStart_toEndOf="@id/iv_cover_picture"
+        app:layout_constraintTop_toTopOf="@id/iv_cover_picture"
+        tools:text="Title" />
 
     <TextView
         android:id="@+id/tv_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/tv_title"
-        tools:text="4.5"
         android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@id/tv_publication_year"
+        app:layout_constraintStart_toStartOf="@id/tv_title"
         app:layout_constraintTop_toBottomOf="@id/tv_title"
-        app:layout_constraintBottom_toTopOf="@id/tv_publication_year"/>
+        tools:text="4.5" />
 
     <TextView
         android:id="@+id/tv_publication_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/tv_title"
-        tools:text="Published in 2023"
         android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="@id/iv_cover_picture"
+        app:layout_constraintStart_toStartOf="@id/tv_title"
         app:layout_constraintTop_toBottomOf="@id/tv_rating"
-        app:layout_constraintBottom_toBottomOf="@id/iv_cover_picture" />
+        tools:text="Published in 2023" />
 
     <ImageView
         android:id="@+id/iv_favourite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_favourite_unselected"
         android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/iv_cover_picture"
-        app:layout_constraintBottom_toBottomOf="@id/iv_cover_picture"
         android:contentDescription="Favourite icon"
-        android:padding="16dp"/>
+        android:focusable="true"
+        android:padding="16dp"
+        android:src="@drawable/ic_favourite_unselected"
+        app:layout_constraintBottom_toBottomOf="@id/iv_cover_picture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_cover_picture" />
+
+    <ImageView
+        android:id="@+id/iv_add_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:contentDescription="Add new tag"
+        android:focusable="true"
+        android:padding="8dp"
+        android:src="@drawable/ic_add_circle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_cover_picture" />
 
 
-
-
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/label_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="ltr"
+        app:flexWrap="wrap"
+        app:alignItems="flex_start"
+        app:alignContent="flex_start"
+        app:layout_constraintTop_toBottomOf="@id/iv_add_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

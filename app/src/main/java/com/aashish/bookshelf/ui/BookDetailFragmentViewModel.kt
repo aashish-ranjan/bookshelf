@@ -10,7 +10,26 @@ class BookDetailFragmentViewModel(
     private val bookRepository: BookRepository
 ) : ViewModel() {
     private val _markedFavouriteLiveData: MutableLiveData<Boolean> = MutableLiveData()
-    var markedFavouriteLiveData: LiveData<Boolean> = _markedFavouriteLiveData
+    val markedFavouriteLiveData: LiveData<Boolean> = _markedFavouriteLiveData
+
+    private val _noteLabelListLiveData: MutableLiveData<List<String>> = MutableLiveData()
+    val noteLabelListLiveData: LiveData<List<String>> = _noteLabelListLiveData
+
+    fun addNewLabel(label: String) {
+        val updatedNoteLabelList = _noteLabelListLiveData.value?.toMutableList() ?: mutableListOf()
+        updatedNoteLabelList.add(label)
+        _noteLabelListLiveData.value = updatedNoteLabelList
+    }
+
+    fun updateLabel(oldLabel: String, newLabel: String) {
+        val updatedNoteLabelList = _noteLabelListLiveData.value?.toMutableList() ?: mutableListOf()
+        val index = updatedNoteLabelList.indexOf(oldLabel)
+        if (index != -1) {
+            updatedNoteLabelList[index] = newLabel
+        }
+        _noteLabelListLiveData.value = updatedNoteLabelList
+    }
+
 
     fun toggleFavourite() {
         val isFavourite = _markedFavouriteLiveData.value == true
