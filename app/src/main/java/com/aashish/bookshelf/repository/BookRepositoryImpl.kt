@@ -4,7 +4,6 @@ import com.aashish.bookshelf.api.BookApi
 import com.aashish.bookshelf.db.BookDao
 import com.aashish.bookshelf.model.Book
 import com.aashish.bookshelf.utils.Resource
-import java.io.IOException
 
 class BookRepositoryImpl(private val bookApi: BookApi, private val bookDao: BookDao) : BookRepository {
     override suspend fun getAllBooks(): Resource<List<Book>> {
@@ -17,7 +16,7 @@ class BookRepositoryImpl(private val bookApi: BookApi, private val bookDao: Book
         } catch (e: Exception) { }
 
         try {
-            val booksFromLocalDb = bookDao.getAllBooks()
+            val booksFromLocalDb = bookDao.getAllBooksSortedByYear()
             if (booksFromLocalDb.isNotEmpty()) {
                 return Resource.Success(booksFromLocalDb)
             }

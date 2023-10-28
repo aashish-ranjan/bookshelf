@@ -11,9 +11,9 @@ interface BookDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(books: List<Book>)
 
-    @Query("SELECT * FROM book_table")
-    fun getAllBooks(): List<Book>
-
+    @Query("SELECT * FROM book_table ORDER BY publicationYear DESC")
+    fun getAllBooksSortedByYear(): List<Book>
+    
     @Query("SELECT * FROM book_table WHERE title LIKE '%'|| :searchQuery || '%'")
     suspend fun searchBooks(searchQuery: String): List<Book>
 }

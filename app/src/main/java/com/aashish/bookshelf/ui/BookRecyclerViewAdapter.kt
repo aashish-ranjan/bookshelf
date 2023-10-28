@@ -22,4 +22,8 @@ class BookRecyclerViewAdapter(private val onItemClick: (book: Book) -> Unit): Li
             holder.bind(it, onItemClick)
         }
     }
+
+    fun getBookAtPosition(position: Int): Book {
+        return currentList[position]
+    }
 }

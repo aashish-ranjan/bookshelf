@@ -17,13 +17,20 @@ class BookListFragmentViewModel(
     private val bookRepository: BookRepository
 ) : ViewModel() {
 
-    private val _bookListLiveData: MutableLiveData<BookListResource> = MutableLiveData()
-    val bookListLiveData: LiveData<BookListResource> = _bookListLiveData
+    private val _bookListResourceLiveData: MutableLiveData<BookListResource> = MutableLiveData()
+    val bookListResourceLiveData: LiveData<BookListResource> = _bookListResourceLiveData
+
+    private val _highlightedYear = MutableLiveData<Int>()
+    val highlightedYear: LiveData<Int> = _highlightedYear
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            _bookListLiveData.postValue(bookRepository.getAllBooks())
+            _bookListResourceLiveData.postValue(bookRepository.getAllBooks())
         }
+    }
+
+    fun setHighlightedYear(year: Int) {
+        _highlightedYear.value = year
     }
 }
 
