@@ -18,7 +18,7 @@ class LoginFragmentViewModel(
     private val authManager: AuthManager,
     private val userRepository: UserRepository
 ) : ViewModel() {
-    private var _userEmailLiveData: MutableLiveData<String> = MutableLiveData()
+    private val _userEmailLiveData: MutableLiveData<String> = MutableLiveData()
     val userEmailLiveData: LiveData<String> = _userEmailLiveData
     private val _loginResultLiveData: MutableLiveData<Resource<User>> = MutableLiveData()
     val loginResultLiveData: LiveData<Resource<User>> = _loginResultLiveData

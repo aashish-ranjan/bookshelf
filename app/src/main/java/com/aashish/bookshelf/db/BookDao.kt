@@ -17,6 +17,4 @@ interface BookDao {
 
     @Query("SELECT * FROM book_table WHERE title LIKE '%'|| :searchQuery || '%'")
     suspend fun searchBooks(searchQuery: String): List<Book>
-
-
 }

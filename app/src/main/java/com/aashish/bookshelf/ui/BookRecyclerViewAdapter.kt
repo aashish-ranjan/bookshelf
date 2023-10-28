@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.aashish.bookshelf.databinding.ItemBookBinding
 import com.aashish.bookshelf.model.Book
 
-class BookRecyclerViewAdapter: ListAdapter<Book, BookViewHolder>(BookItemCallback) {
+class BookRecyclerViewAdapter(private val onItemClick: (book: Book) -> Unit): ListAdapter<Book, BookViewHolder>(BookItemCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
         val binding = ItemBookBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -19,7 +19,7 @@ class BookRecyclerViewAdapter: ListAdapter<Book, BookViewHolder>(BookItemCallbac
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         val bookItem = getItem(position)
         bookItem?.let {
-            holder.bind(it)
+            holder.bind(it, onItemClick)
         }
     }
 }

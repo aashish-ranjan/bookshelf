@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aashish.bookshelf.databinding.FragmentBookListBinding
 import com.aashish.bookshelf.model.Book
@@ -36,9 +37,14 @@ class BookListFragment: Fragment() {
         viewModel = ViewModelProvider(this, bookListFragmentViewModelFactory)[BookListFragmentViewModel::class.java]
 
 
-        binding.rvBookList.layoutManager = LinearLayoutManager(requireActivity())
-        val adapter = BookRecyclerViewAdapter()
-        binding.rvBookList.adapter = adapter
+        val adapter = BookRecyclerViewAdapter { book: Book ->
+            val action = BookListFragmentDirections.actionBookListFragmentToBookDetailFragment(book)
+            findNavController().navigate(action)
+        }
+        binding.rvBookList.apply {
+            layoutManager = LinearLayoutManager(requireActivity())
+            this.adapter = adapter
+        }
         viewModel.bookListLiveData.observe(viewLifecycleOwner) { bookListResource ->
             when(bookListResource) {
                 is Resource.Success -> {
