@@ -10,6 +10,7 @@ import com.aashish.bookshelf.model.UserBookInfo
 import com.aashish.bookshelf.repository.BookRepository
 import com.aashish.bookshelf.repository.UserBookInfoRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class BookDetailFragmentViewModel(
@@ -51,7 +52,6 @@ class BookDetailFragmentViewModel(
         val updatedNoteLabelList = _noteLabelListLiveData.value?.toMutableList() ?: mutableListOf()
         updatedNoteLabelList.add(label)
         _noteLabelListLiveData.value = updatedNoteLabelList
-        updateUserBookInfo()
     }
 
     fun updateLabel(oldLabel: String, newLabel: String) {
@@ -61,39 +61,30 @@ class BookDetailFragmentViewModel(
             updatedNoteLabelList[index] = newLabel
         }
         _noteLabelListLiveData.value = updatedNoteLabelList
-        updateUserBookInfo()
     }
-
-    private fun updateUserBookInfo() {
-
-        viewModelScope.launch(Dispatchers.IO) {
-            if (userBookInfo == null) {
-                userBookInfoRepository.addUserBookInfo(
-                    UserBookInfo(
-                        userId,
-                        bookId,
-                        markedFavouriteLiveData.value == true,
-                        noteLabelListLiveData.value ?: mutableListOf()
-                    )
-                )
-            } else {
-                userBookInfo?.let {
-                    userBookInfoRepository.updateUserBookInfo(
-                        it.copy(
-                            isFavourite = markedFavouriteLiveData.value == true,
-                            notesTagList = noteLabelListLiveData.value ?: mutableListOf()
-                        )
-                    )
-                }
-            }
-        }
-    }
-
 
     fun toggleFavourite() {
         val isFavourite = _markedFavouriteLiveData.value == true
         _markedFavouriteLiveData.value = !isFavourite
-        updateUserBookInfo()
+    }
+    override fun onCleared() {
+        GlobalScope.launch(Dispatchers.IO) {
+            val isFavourite = markedFavouriteLiveData.value == true
+            val notesTagsList  = noteLabelListLiveData.value ?: listOf()
+
+            if (userBookInfo != null) {
+                userBookInfo?.let {
+                    userBookInfoRepository.updateUserBookInfo(
+                        it.copy(isFavourite = isFavourite, notesTagList = notesTagsList)
+                    )
+                }
+            } else if (isFavourite || notesTagsList.isNotEmpty()) {
+                userBookInfoRepository.addUserBookInfo(
+                    UserBookInfo(userId, bookId, isFavourite, notesTagsList )
+                )
+            }
+        }
+        super.onCleared()
     }
 }
 
