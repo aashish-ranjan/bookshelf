@@ -1,12 +1,13 @@
 package com.aashish.bookshelf.ui
 
-import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.EditText
 import com.aashish.bookshelf.databinding.LayoutNotesLabelBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 class NotesLabel(private val binding: LayoutNotesLabelBinding, onClick: (String, String) -> Unit) {
 
@@ -30,12 +31,18 @@ class NotesLabel(private val binding: LayoutNotesLabelBinding, onClick: (String,
     }
 
     private fun showEditDialog(currentText: String, onPositiveClick: (String, String) -> Unit) {
-        val editText = EditText(binding.root.context)
-        editText.setText(currentText)
+        val context = binding.root.context
 
-        val dialog = AlertDialog.Builder(binding.root.context)
+        val editText = TextInputEditText(context).apply {
+            setText(currentText)
+        }
+        val inputLayout = TextInputLayout(context).apply {
+            addView(editText)
+        }
+
+        val dialog = MaterialAlertDialogBuilder(context)
             .setTitle("Edit Label")
-            .setView(editText)
+            .setView(inputLayout)
             .setPositiveButton("Save") { _, _ ->
                 val newText = editText.text.toString()
                 if (newText.isNotBlank()) {

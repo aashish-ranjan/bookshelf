@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aashish.bookshelf.databinding.FragmentBookListBinding
@@ -50,6 +51,9 @@ class BookListFragment : Fragment() {
 
         binding.rvBookList.apply {
             layoutManager = LinearLayoutManager(requireActivity())
+            addItemDecoration(
+                DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL)
+            )
             this.adapter = adapter
         }
         binding.rvYearList.layoutManager =

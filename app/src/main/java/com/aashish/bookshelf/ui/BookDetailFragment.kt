@@ -1,18 +1,19 @@
 package com.aashish.bookshelf.ui
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.aashish.bookshelf.R
 import com.aashish.bookshelf.databinding.FragmentBookDetailBinding
 import com.bumptech.glide.Glide
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 class BookDetailFragment : Fragment() {
     private var _binding: FragmentBookDetailBinding? = null
@@ -106,14 +107,16 @@ class BookDetailFragment : Fragment() {
     }
 
     private fun showInputDialog() {
-        val editText = EditText(requireContext())
-        editText.hint = "Enter label text"
+        val context = requireContext()
+        val textInputLayout = TextInputLayout(context).apply {
+            addView(TextInputEditText(context))
+        }
 
-        val dialog = AlertDialog.Builder(requireContext())
+        val dialog = MaterialAlertDialogBuilder(context)
             .setTitle("Add New Label")
-            .setView(editText)
+            .setView(textInputLayout)
             .setPositiveButton("Add") { _, _ ->
-                val labelText = editText.text.toString()
+                val labelText = textInputLayout.editText?.text.toString()
                 if (labelText.isNotEmpty()) {
                     viewModel.addNewLabel(labelText)
                 } else {

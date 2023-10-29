@@ -3,7 +3,7 @@ package com.aashish.bookshelf.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import com.google.android.material.textview.MaterialTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.aashish.bookshelf.R
 
@@ -11,7 +11,7 @@ class YearAdapter(private val years: List<Int>, private val onClick: (Int) -> Un
     private var highlightedYear = -1
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val yearTextView: TextView = view.findViewById(R.id.tv_year)
+        val yearTextView: MaterialTextView = view.findViewById(R.id.tv_year)
         val underline: View = view.findViewById(R.id.underline)
 
         init {
