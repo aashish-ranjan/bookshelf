@@ -1,26 +1,25 @@
 package com.aashish.bookshelf.repository
 
 import com.aashish.bookshelf.api.CountryApi
-import java.lang.Exception
+import com.aashish.bookshelf.utils.safeCall
 
 class CountryRepositoryImpl(private val countryApi: CountryApi) : CountryRepository {
     override suspend fun getCountryList(): List<String> {
-        return try {
+        return safeCall("getCountryList", TAG) {
             val response = countryApi.getCountryList()
             response.takeIf { it.isSuccessful }?.body()?.data?.values?.map { it.country }
-                ?: listOf()
-        } catch (e: Exception) {
-            listOf()
-        }
+        } ?: listOf()
     }
 
     override suspend fun getCountryFromIpGeoLocation(): String? {
-        return try {
+        return safeCall("getCountryFromIpGeoLocation", TAG) {
             val response = countryApi.getIpGeolocation()
             response.takeIf { it.isSuccessful }?.body()?.country
-        } catch (e: Exception) {
-            null
         }
+    }
+
+    companion object {
+        private const val TAG = "CountryRepositoryImpl"
     }
 
 }

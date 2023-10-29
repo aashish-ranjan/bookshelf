@@ -4,28 +4,36 @@ import com.aashish.bookshelf.api.BookApi
 import com.aashish.bookshelf.db.BookDao
 import com.aashish.bookshelf.model.Book
 import com.aashish.bookshelf.utils.Resource
+import com.aashish.bookshelf.utils.safeCall
 
 class BookRepositoryImpl(private val bookApi: BookApi, private val bookDao: BookDao) : BookRepository {
     override suspend fun getAllBooks(): Resource<List<Book>> {
-        try {
+        /* cache valid network result */
+        safeCall("getAllBooks", TAG) {
             val remoteResults = bookApi.getAllBooks()
             val books = remoteResults.body()?.map { it.toBook() }
             if (remoteResults.isSuccessful && books != null) {
                 bookDao.insert(books)
             }
-        } catch (e: Exception) { }
-
-        try {
+        }
+        /* return valid result from local db */
+        safeCall("getAllBooks", TAG) {
             val booksFromLocalDb = bookDao.getAllBooksSortedByYear()
             if (booksFromLocalDb.isNotEmpty()) {
-                return Resource.Success(booksFromLocalDb)
+                return@getAllBooks Resource.Success(booksFromLocalDb)
             }
-        } catch (e: Exception) { }
+        }
 
-        return Resource.Error("Something went wrong", null)
+        return Resource.Error("Something went wrong")
     }
 
     override suspend fun getBookById(bookId: String): Book? {
-        return bookDao.getBookById(bookId)
+        return safeCall("getBooksById", TAG) {
+            bookDao.getBookById(bookId)
+        }
+    }
+
+    companion object {
+        private const val TAG = "BookRepositoryImpl"
     }
 }
