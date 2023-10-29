@@ -50,7 +50,7 @@ class SignupFragment: Fragment() {
                     etName.text.toString(),
                     etEmail.text.toString(),
                     etPassword.text.toString(),
-                    spinnerCountry.selectedItem.toString()
+                    actvSpinnerCountry.text.toString()
                 )
             }
         }
@@ -78,15 +78,13 @@ class SignupFragment: Fragment() {
         }
         viewModel.countryListLiveData.observe(viewLifecycleOwner) { countryList ->
             if (countryList.isNotEmpty()) {
-                val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, countryList)
-                binding.spinnerCountry.adapter = adapter
+                val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, countryList)
+                binding.actvSpinnerCountry.setAdapter(adapter)
             }
         }
-        viewModel.defaultPositionInLiveData.observe(viewLifecycleOwner) { defaultPositionInDropdown ->
-            defaultPositionInDropdown?.let {position ->
-                if (position >= 0 && position < binding.spinnerCountry.adapter.count) {
-                    binding.spinnerCountry.setSelection(position)
-                }
+        viewModel.defaultCountryInDropdownLiveData.observe(viewLifecycleOwner) { defaultCountryInDropdown ->
+            defaultCountryInDropdown?.let {
+                binding.actvSpinnerCountry.setText(it, false)
             }
         }
     }

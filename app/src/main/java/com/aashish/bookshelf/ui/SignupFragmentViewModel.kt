@@ -26,8 +26,8 @@ class SignupFragmentViewModel(
     private val _countryListLiveData: MutableLiveData<List<String>> = MutableLiveData()
     val countryListLiveData: LiveData<List<String>> = _countryListLiveData
 
-    private val _defaultPositionInDropdown: MutableLiveData<Int> = MutableLiveData()
-    val defaultPositionInLiveData: LiveData<Int> = _defaultPositionInDropdown
+    private val _defaultCountryInDropdownLiveData: MutableLiveData<String> = MutableLiveData()
+    val defaultCountryInDropdownLiveData: LiveData<String> = _defaultCountryInDropdownLiveData
 
 
     init {
@@ -39,7 +39,7 @@ class SignupFragmentViewModel(
                 countryList.add(defaultCountry)
             }
             _countryListLiveData.postValue(countryList)
-            _defaultPositionInDropdown.postValue(countryList.indexOf(defaultCountry))
+            _defaultCountryInDropdownLiveData.postValue(defaultCountry)
         }
     }
 
