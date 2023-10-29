@@ -1,0 +1,13 @@
+<resources>
+    <color name="primaryColor">#BB86FC</color>
+    <color name="primaryVariant">#3700B3</color> <!-- Same as Day mode for consistency -->
+    <color name="secondaryColor">#03DAC6</color> <!-- Same as Day mode for consistency -->
+    <color name="background">#121212</color>
+    <color name="surface">#1F1F1F</color>
+    <color name="errorColor">#CF6679</color>
+    <color name="onPrimary">#000000</color>
+    <color name="onSecondary">#000000</color>
+    <color name="onBackground">#FFFFFF</color>
+    <color name="onSurface">#FFFFFF</color>
+    <color name="onError">#FFFFFF</color>
+</resources>

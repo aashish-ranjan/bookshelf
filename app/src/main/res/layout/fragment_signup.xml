@@ -41,8 +41,7 @@
         android:layout_height="wrap_content"
         android:text="Select Country"
         android:layout_marginTop="8dp"
-        android:textSize="11sp"
-        android:textColor="@android:color/black" />
+        android:textSize="11sp" />
 
     <Spinner
         android:id="@+id/spinner_country"
