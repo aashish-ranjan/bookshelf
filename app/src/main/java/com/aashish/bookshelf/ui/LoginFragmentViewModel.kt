@@ -3,7 +3,6 @@ package com.aashish.bookshelf.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.aashish.bookshelf.R
 import com.aashish.bookshelf.model.User
@@ -12,10 +11,13 @@ import com.aashish.bookshelf.repository.UserRepository
 import com.aashish.bookshelf.utils.Constants.INVALID_USER_ID
 import com.aashish.bookshelf.utils.Resource
 import com.aashish.bookshelf.utils.ValidationUtils
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginFragmentViewModel(
+@HiltViewModel
+class LoginFragmentViewModel @Inject constructor(
     private val authManager: AuthManager,
     private val userRepository: UserRepository,
     private val resourceProvider: ResourceProvider
@@ -67,19 +69,5 @@ class LoginFragmentViewModel(
     fun logout() {
         _userEmailLiveData.value = ""
         authManager.resetLastLoginUserId()
-
-    }
-}
-
-class LoginFragmentViewModelFactory(
-    private val authManager: AuthManager,
-    private val userRepository: UserRepository,
-    private val resourceProvider: ResourceProvider
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(LoginFragmentViewModel::class.java)) {
-            return LoginFragmentViewModel(authManager, userRepository, resourceProvider) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

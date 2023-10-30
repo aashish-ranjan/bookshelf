@@ -3,8 +3,11 @@ package com.aashish.bookshelf.repository
 import com.aashish.bookshelf.db.UserDao
 import com.aashish.bookshelf.model.User
 import com.aashish.bookshelf.utils.safeCall
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class UserRepositoryImpl(private val userDao: UserDao) : UserRepository {
+@Singleton
+class UserRepositoryImpl @Inject constructor(private val userDao: UserDao) : UserRepository {
 
     override suspend fun getUserById(id: Long): User? {
         return safeCall("getUserById", TAG) {

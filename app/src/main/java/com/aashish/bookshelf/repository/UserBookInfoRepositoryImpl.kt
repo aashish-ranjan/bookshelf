@@ -3,8 +3,12 @@ package com.aashish.bookshelf.repository
 import com.aashish.bookshelf.db.UserBookInfoDao
 import com.aashish.bookshelf.model.UserBookInfo
 import com.aashish.bookshelf.utils.safeCall
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class UserBookInfoRepositoryImpl(private val userBookInfoDao: UserBookInfoDao): UserBookInfoRepository {
+@Singleton
+class UserBookInfoRepositoryImpl @Inject constructor(private val userBookInfoDao: UserBookInfoDao) :
+    UserBookInfoRepository {
 
     override suspend fun addUserBookInfo(userBookInfo: UserBookInfo) {
         safeCall("addUserBookInfo", TAG) {
@@ -23,6 +27,7 @@ class UserBookInfoRepositoryImpl(private val userBookInfoDao: UserBookInfoDao): 
             userBookInfoDao.getSavedBookInfo(userId, bookId)
         }
     }
+
     companion object {
         private const val TAG = "UserBookInfoRepositoryImpl"
     }

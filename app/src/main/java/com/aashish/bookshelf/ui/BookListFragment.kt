@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,14 +14,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aashish.bookshelf.databinding.FragmentBookListBinding
 import com.aashish.bookshelf.model.Book
 import com.aashish.bookshelf.utils.Resource
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BookListFragment : Fragment() {
     private var _binding: FragmentBookListBinding? = null
     private val binding
         get() = checkNotNull(_binding) {
             "Binding is null. Is the view visible?"
         }
-    private lateinit var viewModel: BookListFragmentViewModel
+    private val viewModel: BookListFragmentViewModel by viewModels()
     private lateinit var yearAdapter: YearAdapter
     private var yearList = emptyList<Int>()
 
@@ -36,13 +38,6 @@ class BookListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val bookRepository = (requireActivity() as BooksActivity).bookRepository
-        val bookListFragmentViewModelFactory = BookListFragmentViewModelFactory(bookRepository)
-        viewModel = ViewModelProvider(
-            this,
-            bookListFragmentViewModelFactory
-        )[BookListFragmentViewModel::class.java]
-
 
         val adapter = BookRecyclerViewAdapter { bookId: String ->
             val action = BookListFragmentDirections.actionBookListFragmentToBookDetailFragment(bookId)

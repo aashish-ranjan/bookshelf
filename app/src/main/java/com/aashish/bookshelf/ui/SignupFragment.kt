@@ -8,13 +8,14 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.aashish.bookshelf.BookShelfApplication
+import androidx.fragment.app.viewModels
 import com.aashish.bookshelf.R
 import com.aashish.bookshelf.databinding.FragmentSignupBinding
 import com.aashish.bookshelf.utils.Resource
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignupFragment : Fragment() {
     private var _binding: FragmentSignupBinding? = null
     private val binding
@@ -22,7 +23,7 @@ class SignupFragment : Fragment() {
             "Binding is null. Is the view visible?"
         }
 
-    private lateinit var viewModel: SignupFragmentViewModel
+    private val viewModel: SignupFragmentViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,16 +35,6 @@ class SignupFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val authManager = (requireActivity() as AuthActivity).authManager
-        val userRepository = (requireActivity() as AuthActivity).userRepository
-        val countryRepository = (requireActivity() as AuthActivity).countryRepository
-        val resourceProvider = (requireActivity().application as BookShelfApplication).resourceProvider
-        val signupFragmentViewModelFactory =
-            SignupFragmentViewModelFactory(authManager, userRepository, countryRepository, resourceProvider)
-        viewModel = ViewModelProvider(
-            this,
-            signupFragmentViewModelFactory
-        )[SignupFragmentViewModel::class.java]
 
         setUpClickListeners()
         observeListeners()

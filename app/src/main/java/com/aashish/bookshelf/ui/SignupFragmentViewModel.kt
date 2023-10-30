@@ -3,7 +3,6 @@ package com.aashish.bookshelf.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.aashish.bookshelf.R
 import com.aashish.bookshelf.model.User
@@ -12,11 +11,14 @@ import com.aashish.bookshelf.repository.CountryRepository
 import com.aashish.bookshelf.repository.UserRepository
 import com.aashish.bookshelf.utils.Resource
 import com.aashish.bookshelf.utils.ValidationUtils
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SignupFragmentViewModel(
+@HiltViewModel
+class SignupFragmentViewModel @Inject constructor(
     private val authManager: AuthManager,
     private val userRepository: UserRepository,
     private val countryRepository: CountryRepository,
@@ -69,24 +71,5 @@ class SignupFragmentViewModel(
             }
             _signupResultLiveData.postValue(result)
         }
-    }
-}
-
-class SignupFragmentViewModelFactory(
-    private val authManager: AuthManager,
-    private val userRepository: UserRepository,
-    private val countryRepository: CountryRepository,
-    private val resourceProvider: ResourceProvider
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(SignupFragmentViewModel::class.java)) {
-            return SignupFragmentViewModel(
-                authManager,
-                userRepository,
-                countryRepository,
-                resourceProvider
-            ) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

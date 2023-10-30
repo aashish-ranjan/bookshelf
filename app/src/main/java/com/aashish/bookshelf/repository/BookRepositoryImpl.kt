@@ -5,8 +5,14 @@ import com.aashish.bookshelf.db.BookDao
 import com.aashish.bookshelf.model.Book
 import com.aashish.bookshelf.utils.Resource
 import com.aashish.bookshelf.utils.safeCall
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class BookRepositoryImpl(private val bookApi: BookApi, private val bookDao: BookDao) : BookRepository {
+@Singleton
+class BookRepositoryImpl @Inject constructor(
+    private val bookApi: BookApi,
+    private val bookDao: BookDao
+) : BookRepository {
     override suspend fun getAllBooks(): Resource<List<Book>> {
         /* cache valid network result */
         safeCall("getAllBooks", TAG) {

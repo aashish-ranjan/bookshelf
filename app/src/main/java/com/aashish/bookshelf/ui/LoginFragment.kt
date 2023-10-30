@@ -7,14 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.aashish.bookshelf.BookShelfApplication
 import com.aashish.bookshelf.R
 import com.aashish.bookshelf.databinding.FragmentLoginBinding
 import com.aashish.bookshelf.utils.Resource
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding
@@ -22,7 +23,7 @@ class LoginFragment : Fragment() {
             "Binding is null. Is the view visible?"
         }
 
-    private lateinit var viewModel: LoginFragmentViewModel
+    private val viewModel: LoginFragmentViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,15 +36,6 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val authManager = (requireActivity() as AuthActivity).authManager
-        val userRepository = (requireActivity() as AuthActivity).userRepository
-        val resourceProvider = (requireActivity().application as BookShelfApplication).resourceProvider
-        val loginFragmentViewModelFactory =
-            LoginFragmentViewModelFactory(authManager, userRepository, resourceProvider)
-        viewModel = ViewModelProvider(
-            this,
-            loginFragmentViewModelFactory
-        )[LoginFragmentViewModel::class.java]
 
         viewModel.userEmailLiveData.observe(viewLifecycleOwner) { userEmail ->
             if (userEmail.isNullOrEmpty()) {

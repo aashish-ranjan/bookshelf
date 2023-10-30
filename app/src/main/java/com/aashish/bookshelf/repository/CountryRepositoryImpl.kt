@@ -2,8 +2,11 @@ package com.aashish.bookshelf.repository
 
 import com.aashish.bookshelf.api.CountryApi
 import com.aashish.bookshelf.utils.safeCall
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class CountryRepositoryImpl(private val countryApi: CountryApi) : CountryRepository {
+@Singleton
+class CountryRepositoryImpl @Inject constructor(private val countryApi: CountryApi) : CountryRepository {
     override suspend fun getCountryList(): List<String> {
         return safeCall("getCountryList", TAG) {
             val response = countryApi.getCountryList()

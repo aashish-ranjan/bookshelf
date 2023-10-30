@@ -1,6 +1,11 @@
 package com.aashish.bookshelf.repository
 
-class AuthManagerImpl(private val preferencesRepository: PreferencesRepository): AuthManager {
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class AuthManagerImpl @Inject constructor(private val preferencesRepository: PreferencesRepository) :
+    AuthManager {
     override fun getLastLoginUserId(): Long {
         return preferencesRepository.getLastLoginUserId()
     }

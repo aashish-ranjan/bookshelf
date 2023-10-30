@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.aashish.bookshelf.R
@@ -14,15 +16,32 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class BookDetailFragment : Fragment() {
     private var _binding: FragmentBookDetailBinding? = null
     private val binding
         get() = checkNotNull(_binding) {
             "Binding is null. Is the view visible?"
         }
-    private lateinit var viewModel: BookDetailFragmentViewModel
+
     private val args: BookDetailFragmentArgs by navArgs()
+
+    @Inject
+    lateinit var viewModelFactory: BookDetailFragmentViewModelFactory
+
+    private val viewModel: BookDetailFragmentViewModel by viewModels {
+        object : ViewModelProvider.Factory {
+            override fun <T: ViewModel> create(modelClass: Class<T>): T {
+                if (modelClass.isAssignableFrom(BookDetailFragmentViewModel::class.java)) {
+                    return viewModelFactory.create(args.bookId) as T
+                }
+                throw IllegalArgumentException("Unknown ViewModel class")
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,19 +54,6 @@ class BookDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val userBookInfoRepository = (requireActivity() as BooksActivity).userBookInfoRepository
-        val bookRepository = (requireActivity() as BooksActivity).bookRepository
-        val authManager = (requireActivity() as BooksActivity).authManager
-        val bookDetailFragmentViewModelFactory = BookDetailFragmentViewModelFactory(
-            args.bookId,
-            authManager.getLastLoginUserId(),
-            userBookInfoRepository,
-            bookRepository
-        )
-        viewModel = ViewModelProvider(
-            this,
-            bookDetailFragmentViewModelFactory
-        )[BookDetailFragmentViewModel::class.java]
 
         setupClickListeners()
         setUpObservers()

@@ -3,22 +3,26 @@ package com.aashish.bookshelf.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.aashish.bookshelf.model.Book
 import com.aashish.bookshelf.model.UserBookInfo
+import com.aashish.bookshelf.repository.AuthManager
 import com.aashish.bookshelf.repository.BookRepository
 import com.aashish.bookshelf.repository.UserBookInfoRepository
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class BookDetailFragmentViewModel(
-    private val bookId: String,
-    private val userId: Long,
+class BookDetailFragmentViewModel @AssistedInject constructor(
     private val userBookInfoRepository: UserBookInfoRepository,
-    private val bookRepository: BookRepository
+    private val bookRepository: BookRepository,
+    private val authManager: AuthManager,
+    @Assisted private val bookId: String,
 ) : ViewModel() {
+
     private val _markedFavouriteLiveData: MutableLiveData<Boolean> = MutableLiveData()
     val markedFavouriteLiveData: LiveData<Boolean> = _markedFavouriteLiveData
 
@@ -39,7 +43,7 @@ class BookDetailFragmentViewModel(
                 }
             }
             launch {
-                userBookInfo = userBookInfoRepository.getSavedBookInfo(userId, bookId)
+                userBookInfo = userBookInfoRepository.getSavedBookInfo(authManager.getLastLoginUserId(), bookId)
                 userBookInfo?.let {
                     _markedFavouriteLiveData.postValue(it.isFavourite)
                     _noteLabelListLiveData.postValue(it.notesTagList)
@@ -80,7 +84,7 @@ class BookDetailFragmentViewModel(
                 }
             } else if (isFavourite || notesTagsList.isNotEmpty()) {
                 userBookInfoRepository.addUserBookInfo(
-                    UserBookInfo(userId, bookId, isFavourite, notesTagsList )
+                    UserBookInfo(authManager.getLastLoginUserId(), bookId, isFavourite, notesTagsList )
                 )
             }
         }
@@ -88,21 +92,7 @@ class BookDetailFragmentViewModel(
     }
 }
 
-class BookDetailFragmentViewModelFactory(
-    private val bookId: String,
-    private val userId: Long,
-    private val userBookInfoRepository: UserBookInfoRepository,
-    private val bookRepository: BookRepository
-) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(BookDetailFragmentViewModel::class.java)) {
-            return BookDetailFragmentViewModel(
-                bookId,
-                userId,
-                userBookInfoRepository,
-                bookRepository
-            ) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
+@AssistedFactory
+interface BookDetailFragmentViewModelFactory {
+    fun create(bookId: String): BookDetailFragmentViewModel
 }
