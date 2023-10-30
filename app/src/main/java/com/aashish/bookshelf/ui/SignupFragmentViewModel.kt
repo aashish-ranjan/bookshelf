@@ -38,7 +38,7 @@ class SignupFragmentViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             val defaultCountryDeferred = async { countryRepository.getCountryFromIpGeoLocation() }
             val countryList = countryRepository.getCountryList().toMutableList()
-            val defaultCountry = defaultCountryDeferred.await() ?: "Other"
+            val defaultCountry = defaultCountryDeferred.await() ?: resourceProvider.getString(R.string.other)
             if (!countryList.contains(defaultCountry)) {
                 countryList.add(defaultCountry)
             }
