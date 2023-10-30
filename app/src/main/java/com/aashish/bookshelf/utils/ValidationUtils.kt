@@ -1,35 +1,47 @@
 package com.aashish.bookshelf.utils
 
+import com.aashish.bookshelf.R
+import com.aashish.bookshelf.ui.ResourceProvider
 import com.aashish.bookshelf.utils.Constants.EMAIL_REGEX
 
 object ValidationUtils {
 
-    fun emailValidation(email: String): Resource<String> {
+    fun emailValidation(email: String, resourceProvider: ResourceProvider): Resource<String> {
         return if (EMAIL_REGEX.toRegex().matches(email)) {
-            Resource.Success(data = "Valid Email")
+            Resource.Success(data = resourceProvider.getString(R.string.valid_email))
         } else {
-            Resource.Error("Invalid email format")
+            Resource.Error(resourceProvider.getString(R.string.invalid_email_format))
         }
     }
 
-    fun passwordValidation(password: String): Resource<String> {
+    fun passwordValidation(password: String, resourceProvider: ResourceProvider): Resource<String> {
         return when {
-            password.length < 8 -> Resource.Error("Password should be at least 8 characters long.")
-            !Regex(".*[0-9].*").matches(password) -> Resource.Error("Password should contain at least one number.")
-            !Regex(".*[!@#$%&()].*").matches(password) -> Resource.Error("Password should contain at least one special character from !@#$%&().")
-            !Regex(".*[a-z].*").matches(password) -> Resource.Error("Password should contain at least one lowercase letter.")
-            !Regex(".*[A-Z].*").matches(password) -> Resource.Error("Password should contain at least one uppercase letter.")
-            else -> Resource.Success(data = "Valid Password")
+            password.length < 8 -> Resource.Error(resourceProvider.getString(R.string.password_length_error))
+            !Regex(".*[0-9].*").matches(password) -> Resource.Error(resourceProvider.getString(R.string.password_number_error))
+            !Regex(".*[!@#$%&()].*").matches(password) -> Resource.Error(
+                resourceProvider.getString(
+                    R.string.password_special_char_error
+                )
+            )
+
+            !Regex(".*[a-z].*").matches(password) -> Resource.Error(resourceProvider.getString(R.string.password_lowercase_error))
+            !Regex(".*[A-Z].*").matches(password) -> Resource.Error(resourceProvider.getString(R.string.password_uppercase_error))
+            else -> Resource.Success(resourceProvider.getString(R.string.valid_password))
         }
     }
 
-    fun nameValidation(name: String): Resource<String> {
+    fun nameValidation(name: String, resourceProvider: ResourceProvider): Resource<String> {
         return when {
-            name.isBlank() -> Resource.Error("Name cannot be blank or empty.")
-            !name.all { it.isLetter() || it.isWhitespace() } -> Resource.Error("Name should only contain letters and spaces.")
-            name.length > 50 -> Resource.Error("Name is too long.")
-            name.length < 2 -> Resource.Error("Name is too short.")
-            else -> Resource.Success(data = "Valid name")
+            name.isBlank() -> Resource.Error(resourceProvider.getString(R.string.name_blank_error))
+            !name.all { it.isLetter() || it.isWhitespace() } -> Resource.Error(
+                resourceProvider.getString(
+                    R.string.name_invalid_chars_error
+                )
+            )
+
+            name.length > 50 -> Resource.Error(resourceProvider.getString(R.string.name_too_long_error))
+            name.length < 2 -> Resource.Error(resourceProvider.getString(R.string.name_too_short_error))
+            else -> Resource.Success(resourceProvider.getString(R.string.valid_name))
         }
     }
 }

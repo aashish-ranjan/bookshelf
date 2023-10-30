@@ -44,7 +44,7 @@ class LoginFragmentViewModel(
 
     fun processLoginCredentials(email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val emailError = ValidationUtils.emailValidation(email).message
+            val emailError = ValidationUtils.emailValidation(email, resourceProvider).message
             val result = if (emailError != null) {
                 Resource.Error(emailError)
             } else {

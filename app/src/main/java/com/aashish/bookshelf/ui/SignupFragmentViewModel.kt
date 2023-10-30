@@ -47,9 +47,9 @@ class SignupFragmentViewModel(
 
     fun processSignupCredentials(name: String, email: String, password: String, country: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val nameError = ValidationUtils.nameValidation(name).message
-            val emailError = ValidationUtils.emailValidation(email).message
-            val passwordError = ValidationUtils.passwordValidation(password).message
+            val nameError = ValidationUtils.nameValidation(name, resourceProvider).message
+            val emailError = ValidationUtils.emailValidation(email, resourceProvider).message
+            val passwordError = ValidationUtils.passwordValidation(password, resourceProvider).message
 
             val result = when {
                 nameError != null -> Resource.Error(nameError)
