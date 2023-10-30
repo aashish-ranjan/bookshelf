@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Regular font -->
+    <font
+        android:font="@font/lorem_ipsum"
+        android:fontStyle="normal"
+        android:fontWeight="400" />
+    <!-- You can also define other font styles like bold, italic, etc. if you have them -->
+
+    <!-- Bold font -->
+    <font
+        android:font="@font/lorem_ipsum"
+        android:fontStyle="normal"
+        android:fontWeight="700" />
+
+    <!-- Italic font -->
+    <font
+        android:font="@font/lorem_ipsum"
+        android:fontStyle="italic"
+        android:fontWeight="400" />
+</font-family>
