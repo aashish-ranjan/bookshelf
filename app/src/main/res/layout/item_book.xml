@@ -13,7 +13,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:contentDescription="Image thumbnail"
+        android:contentDescription="@string/image_thumbnail"
         android:elevation="4dp"
         tools:src="@drawable/img_placeholder"/>
 
@@ -50,7 +50,6 @@
         tools:text="Published in 2023"
         android:textAppearance="?attr/textAppearanceCaption"
         app:layout_constraintTop_toBottomOf="@id/tv_rating"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

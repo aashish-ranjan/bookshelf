@@ -6,7 +6,9 @@
     <string name="logged_out_successfully">Logged out Successfully</string>
     <string name="email_does_not_exist">Email does not exist</string>
     <string name="incorrect_password">Incorrect Password</string>
-    <string name="something_went_wrong">"Something went wrong"</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="update_empty_label_error">Update Failed! New label cannot be empty</string>
+    <string name="add_empty_label_error">Label cannot be empty</string>
 
     <!-- Form Fields -->
     <string name="email">Email</string>
@@ -19,6 +21,11 @@
     <string name="logout">Logout</string>
     <string name="create_new_account">Create a new account</string>
     <string name="sign_up">Sign up</string>
+    <string name="edit_label">Edit Label</string>
+    <string name="add_label">Add New Label</string>
+    <string name="save">Save</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
 
     <!-- Validation Messages -->
     <string name="valid_email">Valid Email</string>
@@ -34,5 +41,11 @@
     <string name="name_too_long_error">Name is too long.</string>
     <string name="name_too_short_error">Name is too short.</string>
     <string name="valid_name">Valid name</string>
+
+    <!--Content Description -->
+    <string name="book_cover_picture">Book cover picture</string>
+    <string name="favourite_icon">Favourite icon</string>
+    <string name="add_new_tag">Add new tag</string>
+    <string name="image_thumbnail">Image thumbnail</string>
 
 </resources>

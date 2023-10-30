@@ -113,18 +113,18 @@ class BookDetailFragment : Fragment() {
         }
 
         val dialog = MaterialAlertDialogBuilder(context)
-            .setTitle("Add New Label")
+            .setTitle(getString(R.string.add_label))
             .setView(textInputLayout)
-            .setPositiveButton("Add") { _, _ ->
+            .setPositiveButton(getString(R.string.add)) { _, _ ->
                 val labelText = textInputLayout.editText?.text.toString()
                 if (labelText.isNotEmpty()) {
                     viewModel.addNewLabel(labelText)
                 } else {
-                    Snackbar.make(binding.root, "Label cannot be empty", Snackbar.LENGTH_SHORT)
+                    Snackbar.make(binding.root, "", Snackbar.LENGTH_SHORT)
                         .show()
                 }
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(getString(R.string.cancel), null)
             .create()
 
         dialog.show()

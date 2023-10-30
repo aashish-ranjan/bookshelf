@@ -3,6 +3,7 @@ package com.aashish.bookshelf.ui
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.aashish.bookshelf.R
 import com.aashish.bookshelf.databinding.LayoutNotesLabelBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -41,17 +42,21 @@ class NotesLabel(private val binding: LayoutNotesLabelBinding, onClick: (String,
         }
 
         val dialog = MaterialAlertDialogBuilder(context)
-            .setTitle("Edit Label")
+            .setTitle(context.getString(R.string.edit_label))
             .setView(inputLayout)
-            .setPositiveButton("Save") { _, _ ->
+            .setPositiveButton(context.getString(R.string.save)) { _, _ ->
                 val newText = editText.text.toString()
                 if (newText.isNotBlank()) {
                     onPositiveClick(currentText, newText)
                 } else {
-                    Snackbar.make(binding.root, "Update Failed! New label cannot be empty", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(
+                        binding.root,
+                        context.getString(R.string.update_empty_label_error),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                 }
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(context.getString(R.string.cancel), null)
             .create()
 
         dialog.show()
