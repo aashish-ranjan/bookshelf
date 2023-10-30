@@ -26,15 +26,17 @@ An intuitive Android application designed for book enthusiasts. Dive deep into a
     - Your data remains secure and persists across login sessions.
 
 ## Libraries Used 🛠
+- **Dagger Hilt** - For dependency injection.
 - **Room** - For local data storage.
 - **Glide** - Efficient image loading.
 - **Navigation Components with SafeArgs Plugin** - Seamless app navigation.
 - **Retrofit** - Network calls made easy.
 - **Coroutines** - Handle asynchronous tasks with ease.
+- **Flexbox** - To display multiple note tags/annotations in a linear fashion.
 
 ## Languages Used 🖥
 - **Kotlin** - Modern, expressive, and safe language for Android development.
-- Built following MVVM architecture with clean architecture.
+- Built following MVVM with clean architecture principles. Follows Material design guidelines.
 
 ## How to Run & Verify 🏃‍♂️
 Clone the Repository:
@@ -57,3 +59,4 @@ Book Details: Tap on any book to uncover its details, mark favorites, or annotat
 Logout:
 
 Simply use the logout option when you're done.
+![bookshelf demo](https://github.com/aashish-ranjan/bookshelf/assets/77250679/ee7e39be-c130-4b19-b8fd-6b143b03b10b)
