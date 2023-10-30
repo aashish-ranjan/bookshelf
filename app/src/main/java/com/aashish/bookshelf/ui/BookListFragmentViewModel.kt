@@ -9,6 +9,7 @@ import com.aashish.bookshelf.repository.BookRepository
 import com.aashish.bookshelf.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,14 +25,22 @@ class BookListFragmentViewModel @Inject constructor(
 
     private val _highlightedYear = MutableLiveData<Int>()
     val highlightedYear: LiveData<Int> = _highlightedYear
+    private var bookFetchJob: Job? = null
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
+        bookFetchJob = viewModelScope.launch(Dispatchers.IO) {
             _bookListResourceLiveData.postValue(bookRepository.getAllBooks())
         }
     }
 
     fun setHighlightedYear(year: Int) {
         _highlightedYear.value = year
+    }
+
+    fun searchBookByTitle(title: String) {
+        if (bookFetchJob?.isActive == true) bookFetchJob?.cancel()
+        bookFetchJob = viewModelScope.launch(Dispatchers.IO) {
+            _bookListResourceLiveData.postValue(bookRepository.searchBooksByTitle(title))
+        }
     }
 }

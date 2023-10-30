@@ -27,6 +27,7 @@
     <string name="save">Save</string>
     <string name="add">Add</string>
     <string name="cancel">Cancel</string>
+    <string name="search">Search</string>
 
     <!-- Validation Messages -->
     <string name="valid_email">Valid Email</string>

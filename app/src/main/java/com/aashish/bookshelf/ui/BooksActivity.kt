@@ -13,5 +13,6 @@ class BooksActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityBooksBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
     }
 }

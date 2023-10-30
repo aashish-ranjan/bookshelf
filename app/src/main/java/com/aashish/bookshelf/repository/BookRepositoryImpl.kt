@@ -33,6 +33,17 @@ class BookRepositoryImpl @Inject constructor(
         return Resource.Error("Something went wrong")
     }
 
+    override suspend fun searchBooksByTitle(title: String): Resource<List<Book>> {
+        safeCall("searchBooksByTitle", TAG) {
+            val booksFromLocalDb = bookDao.searchBooksByTitle(title)
+            if (booksFromLocalDb.isNotEmpty()) {
+                return@searchBooksByTitle Resource.Success(booksFromLocalDb)
+            }
+        }
+
+        return Resource.Error("Something went wrong")
+    }
+
     override suspend fun getBookById(bookId: String): Book? {
         return safeCall("getBooksById", TAG) {
             bookDao.getBookById(bookId)

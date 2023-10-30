@@ -2,8 +2,12 @@ package com.aashish.bookshelf.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -11,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.aashish.bookshelf.R
 import com.aashish.bookshelf.databinding.FragmentBookListBinding
 import com.aashish.bookshelf.model.Book
 import com.aashish.bookshelf.utils.Resource
@@ -26,6 +31,32 @@ class BookListFragment : Fragment() {
     private val viewModel: BookListFragmentViewModel by viewModels()
     private lateinit var yearAdapter: YearAdapter
     private var yearList = emptyList<Int>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_search, menu)
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem.actionView as? SearchView
+        searchView?.setOnQueryTextListener(object : OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let {
+                    viewModel.searchBookByTitle(it)
+                    return true
+                }
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
+        super.onCreateOptionsMenu(menu, inflater)
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

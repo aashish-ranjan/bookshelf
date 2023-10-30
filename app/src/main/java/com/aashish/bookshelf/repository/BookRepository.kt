@@ -7,4 +7,5 @@ interface BookRepository {
     suspend fun getAllBooks(): Resource<List<Book>>
 
     suspend fun getBookById(bookId: String): Book?
+    suspend fun searchBooksByTitle(title: String): Resource<List<Book>>
 }
