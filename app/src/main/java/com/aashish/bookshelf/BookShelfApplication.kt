@@ -9,6 +9,7 @@ import com.aashish.bookshelf.repository.CountryRepositoryImpl
 import com.aashish.bookshelf.repository.PreferencesRepository
 import com.aashish.bookshelf.repository.UserBookInfoRepositoryImpl
 import com.aashish.bookshelf.repository.UserRepositoryImpl
+import com.aashish.bookshelf.ui.AppResourceProvider
 
 class BookShelfApplication: Application() {
 
@@ -34,5 +35,9 @@ class BookShelfApplication: Application() {
 
     val userBookInfoRepository by lazy {
         UserBookInfoRepositoryImpl(bookShelfDatabase.userBookInfoDao())
+    }
+
+    val resourceProvider by lazy {
+        AppResourceProvider(this)
     }
 }

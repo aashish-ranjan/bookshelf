@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.aashish.bookshelf.R
 import com.aashish.bookshelf.model.User
 import com.aashish.bookshelf.repository.AuthManager
 import com.aashish.bookshelf.repository.CountryRepository
@@ -18,7 +19,8 @@ import kotlinx.coroutines.launch
 class SignupFragmentViewModel(
     private val authManager: AuthManager,
     private val userRepository: UserRepository,
-    private val countryRepository: CountryRepository
+    private val countryRepository: CountryRepository,
+    private val resourceProvider: ResourceProvider
 ) : ViewModel() {
     private val _signupResultLiveData: MutableLiveData<Resource<User>> = MutableLiveData()
     val signupResultLiveData: LiveData<Resource<User>> = _signupResultLiveData
@@ -56,7 +58,7 @@ class SignupFragmentViewModel(
                 else -> {
                     val user = userRepository.getUserByEmail(email)
                     if (user != null) {
-                        Resource.Error("Email already exists")
+                        Resource.Error(resourceProvider.getString(R.string.email_already_exists))
                     } else {
                         val newUser = User(name.trim(), email, password, country)
                         val generatedUserId = userRepository.registerNewUser(newUser)
@@ -73,11 +75,17 @@ class SignupFragmentViewModel(
 class SignupFragmentViewModelFactory(
     private val authManager: AuthManager,
     private val userRepository: UserRepository,
-    private val countryRepository: CountryRepository
+    private val countryRepository: CountryRepository,
+    private val resourceProvider: ResourceProvider
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SignupFragmentViewModel::class.java)) {
-            return SignupFragmentViewModel(authManager, userRepository, countryRepository) as T
+            return SignupFragmentViewModel(
+                authManager,
+                userRepository,
+                countryRepository,
+                resourceProvider
+            ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

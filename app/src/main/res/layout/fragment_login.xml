@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             app:hintEnabled="true"
             app:boxBackgroundMode="outline"
-            android:hint="Email">
+            android:hint="@string/email">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_email"
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             app:hintEnabled="true"
             app:boxBackgroundMode="outline"
-            android:hint="Password">
+            android:hint="@string/password">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_password"
@@ -53,7 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/email_password_layout"
-        android:text="Login" />
+        android:text="@string/login" />
 
     <ProgressBar
         android:id="@+id/login_progress_bar"
@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:text="Logout"
+        android:text="@string/logout"
         android:visibility="gone"
         tools:visibility="visible"
         android:textStyle="bold"
@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="Create a new account"
+        android:text="@string/create_new_account"
         android:textStyle="bold"
         android:clickable="true"
         android:focusable="true"

@@ -9,6 +9,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.aashish.bookshelf.BookShelfApplication
+import com.aashish.bookshelf.R
 import com.aashish.bookshelf.databinding.FragmentLoginBinding
 import com.aashish.bookshelf.utils.Resource
 import com.google.android.material.snackbar.Snackbar
@@ -35,9 +37,13 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val authManager = (requireActivity() as AuthActivity).authManager
         val userRepository = (requireActivity() as AuthActivity).userRepository
+        val resourceProvider = (requireActivity().application as BookShelfApplication).resourceProvider
         val loginFragmentViewModelFactory =
-            LoginFragmentViewModelFactory(authManager, userRepository)
-        viewModel = ViewModelProvider(this, loginFragmentViewModelFactory)[LoginFragmentViewModel::class.java]
+            LoginFragmentViewModelFactory(authManager, userRepository, resourceProvider)
+        viewModel = ViewModelProvider(
+            this,
+            loginFragmentViewModelFactory
+        )[LoginFragmentViewModel::class.java]
 
         viewModel.userEmailLiveData.observe(viewLifecycleOwner) { userEmail ->
             if (userEmail.isNullOrEmpty()) {
@@ -57,7 +63,11 @@ class LoginFragment : Fragment() {
 
                 is Resource.Error -> {
                     binding.loginProgressBar.isVisible = false
-                    Snackbar.make(binding.root, loginResult.message ?: "Unknown Error", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(
+                        binding.root,
+                        loginResult.message ?: getString(R.string.unknown_error),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                 }
 
                 is Resource.Loading -> {
@@ -106,7 +116,11 @@ class LoginFragment : Fragment() {
                 findNavController().navigate(action)
             }
             tvLogout.setOnClickListener {
-                Snackbar.make(binding.root, "Logged out Successfully", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(
+                    binding.root,
+                    getString(R.string.logged_out_successfully),
+                    Snackbar.LENGTH_SHORT
+                ).show()
                 viewModel.logout()
             }
         }

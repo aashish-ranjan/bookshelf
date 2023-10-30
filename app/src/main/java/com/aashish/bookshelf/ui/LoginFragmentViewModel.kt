@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.aashish.bookshelf.R
 import com.aashish.bookshelf.model.User
 import com.aashish.bookshelf.repository.AuthManager
 import com.aashish.bookshelf.repository.UserRepository
@@ -16,7 +17,8 @@ import kotlinx.coroutines.launch
 
 class LoginFragmentViewModel(
     private val authManager: AuthManager,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val resourceProvider: ResourceProvider
 ) : ViewModel() {
     private val _userEmailLiveData: MutableLiveData<String> = MutableLiveData()
     val userEmailLiveData: LiveData<String> = _userEmailLiveData
@@ -48,14 +50,14 @@ class LoginFragmentViewModel(
             } else {
                 val user = userRepository.getUserByEmail(email)
                 when {
-                    user == null -> Resource.Error("Email does not exist")
-                    user.password != password -> Resource.Error("Incorrect Password")
+                    user == null -> Resource.Error(resourceProvider.getString(R.string.email_does_not_exist))
+                    user.password != password -> Resource.Error(resourceProvider.getString(R.string.incorrect_password))
                     user.id != INVALID_USER_ID -> {
                         authManager.updateLastLoginUserId(user.id)
                         Resource.Success(user)
                     }
 
-                    else -> Resource.Error("Something went wrong")
+                    else -> Resource.Error(resourceProvider.getString(R.string.something_went_wrong))
                 }
             }
             _loginResultLiveData.postValue(result)
@@ -71,11 +73,12 @@ class LoginFragmentViewModel(
 
 class LoginFragmentViewModelFactory(
     private val authManager: AuthManager,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val resourceProvider: ResourceProvider
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(LoginFragmentViewModel::class.java)) {
-            return LoginFragmentViewModel(authManager, userRepository) as T
+            return LoginFragmentViewModel(authManager, userRepository, resourceProvider) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
