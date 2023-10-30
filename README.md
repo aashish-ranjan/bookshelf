@@ -59,3 +59,4 @@ Book Details: Tap on any book to uncover its details, mark favorites, or annotat
 Logout:
 
 Simply use the logout option when you're done.
+![bookshelf demo](https://github.com/aashish-ranjan/bookshelf/assets/77250679/a2784b7b-fe85-4823-948f-ab4a67e461f9)
