@@ -36,7 +36,7 @@ An intuitive Android application designed for book enthusiasts. Dive deep into a
 
 ## Languages Used 🖥
 - **Kotlin** - Modern, expressive, and safe language for Android development.
-- Built following MVVM architecture with clean architecture.
+- Built following MVVM with clean architecture principles. Follows Material design guidelines.
 
 ## How to Run & Verify 🏃‍♂️
 Clone the Repository:
@@ -59,4 +59,4 @@ Book Details: Tap on any book to uncover its details, mark favorites, or annotat
 Logout:
 
 Simply use the logout option when you're done.
-![bookshelf demo](https://github.com/aashish-ranjan/bookshelf/assets/77250679/a2784b7b-fe85-4823-948f-ab4a67e461f9)
+![bookshelf demo](https://github.com/aashish-ranjan/bookshelf/assets/77250679/ee7e39be-c130-4b19-b8fd-6b143b03b10b)
