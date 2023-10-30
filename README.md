@@ -26,11 +26,13 @@ An intuitive Android application designed for book enthusiasts. Dive deep into a
     - Your data remains secure and persists across login sessions.
 
 ## Libraries Used 🛠
+- **Dagger Hilt** - For dependency injection.
 - **Room** - For local data storage.
 - **Glide** - Efficient image loading.
 - **Navigation Components with SafeArgs Plugin** - Seamless app navigation.
 - **Retrofit** - Network calls made easy.
 - **Coroutines** - Handle asynchronous tasks with ease.
+- **Flexbox** - To display multiple note tags/annotations in a linear fashion.
 
 ## Languages Used 🖥
 - **Kotlin** - Modern, expressive, and safe language for Android development.
