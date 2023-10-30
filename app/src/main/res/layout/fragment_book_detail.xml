@@ -22,6 +22,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textSize="20sp"
+        app:fontFamily="@font/font_family"
         android:layout_marginStart="16dp"
         app:layout_constraintStart_toEndOf="@id/iv_cover_picture"
         app:layout_constraintEnd_toEndOf="parent"
